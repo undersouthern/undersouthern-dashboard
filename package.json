@@ -1,0 +1,14 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "Coming Soon dashboard page",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'No build step required for static HTML'",
+    "lint": "echo 'No linting configured'"
+  },
+  "dependencies": {
+    "@vercel/speed-insights": "^1.0.12"
+  }
+}
