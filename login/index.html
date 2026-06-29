@@ -30,7 +30,7 @@
 
     <div class="login-card">
         <div class="logo-box">
-            <img src="https://raw.githubusercontent.com/phvinh1968-a11y/my-images/main/logoblack.png" alt="image_480620.png">
+            <img src="https://raw.githubusercontent.com/phvinh1968-a11y/my-images/main/logoblack.png" alt="UNDERSOUTHERN Logo">
             <h1>UNDERSOUTHERN</h1>
         </div>
         
@@ -47,8 +47,10 @@
         </form>
     </div>
 
+    <script src="account.js"></script>
+
     <script>
-        document.getElementById('loginForm').onsubmit = async function(e) {
+        document.getElementById('loginForm').onsubmit = function(e) {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
             const emailInput = document.getElementById('email').value.trim();
@@ -57,29 +59,17 @@
             btn.innerText = 'LOADING...';
             btn.disabled = true;
 
-            const SHEET_ID = '1V0jSbi9e04Woe2QG_4F7Ei2NKh-fdrNaqATN3MEEBcY';
-            const API_KEY = 'AIzaSyDf8l3PCdLdB-CcW8E03ekUFsVhQgtLWoo';
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!B2:C100?key=${API_KEY}`;
+            // Kiểm tra thông tin đăng nhập từ mảng USER_ACCOUNTS trong file account.js
+            const user = USER_ACCOUNTS.find(acc => acc.email === emailInput && acc.password === passInput);
 
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                
-                // Cột B (index 0) là email, Cột C (index 1) là password
-                const user = data.values.find(row => row[0] === emailInput && String(row[1]) === passInput);
-
-                if (user) {
-                    localStorage.setItem('isLoggedIn', 'true');
-                    sessionStorage.setItem('userEmail', emailInput);
-                    window.location.href = "/royalty-portal/overview?";
-                } else {
-                    alert("Sai email hoặc mật khẩu!");
-                    btn.innerText = 'LOGIN';
-                    btn.disabled = false;
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Lỗi kết nối tới hệ thống.");
+            if (user) {
+                // Đăng nhập thành công
+                localStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('userEmail', emailInput);
+                window.location.href = "/royalty-portal/overview?";
+            } else {
+                // Đăng nhập thất bại
+                alert("Sai email hoặc mật khẩu!");
                 btn.innerText = 'LOGIN';
                 btn.disabled = false;
             }
